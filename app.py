@@ -20,12 +20,11 @@ if not os.path.exists(upload_folder):
     os.makedirs(upload_folder)
 
 class FileMetadata(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     filename = db.Column(db.String(255), nullable=False)
     file_size = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, id, filename, file_size):
-        self.id = id
+    def __init__(self, filename, file_size):
         self.filename = filename
         self.file_size = file_size
 
@@ -42,9 +41,8 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             file_size = len(file.read()) 
-            file_id = get_next_file_id()
 
-            file_metadata = FileMetadata(id=file_id, filename=filename, file_size = file_size)
+            file_metadata = FileMetadata(filename=filename, file_size = file_size)
             db.session.add(file_metadata)
 
 
@@ -79,15 +77,6 @@ def get_file(file_id):
         )
     else:
         return 'File not found', 404
-
-def get_next_file_id():
-    # You can implement logic to generate unique file IDs here
-    # For simplicity, we're using a global counter as an example
-    if not hasattr(get_next_file_id, 'counter'):
-        get_next_file_id.counter = 1
-    else:
-        get_next_file_id.counter += 1
-    return get_next_file_id.counter
    
 if __name__ == '__main__':
     app.run(debug=True)
