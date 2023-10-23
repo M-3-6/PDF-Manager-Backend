@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'files'
 
 db = SQLAlchemy(app)
+port = int(os.environ.get("PORT", 3000))
 
 upload_folder = 'files'
 if not os.path.exists(upload_folder):
