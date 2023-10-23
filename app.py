@@ -15,7 +15,6 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = 'files'
 
     db = SQLAlchemy(app)
-    port = int(os.environ.get("PORT", 3000))
 
     upload_folder = 'files'
     if not os.path.exists(upload_folder):
@@ -82,4 +81,4 @@ def create_app():
    
 if __name__ == '__main__':
     app = create_app()
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 443)), debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)), debug=True)
